@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warm Hug 101.9 FM 🐾</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --peach: #ffdab9;
+            --cream: #fff9f0; /* Slightly warmer cream */
+            --accent: #ffb7b2;
+            --text: #6d4c41;
+            --white: #ffffff;
+        }
+
+        body {
+            background-color: var(--cream);
+            color: var(--text);
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- Tiled Hand-Drawn Doodle Background --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15; /* Keeps it subtle so text is readable */
+            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%236d4c41' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M30 40 Q40 10 50 40 Q60 10 70 40 Q80 60 50 80 Q20 60 30 40 Z'/%3E%3Ccircle cx='42' cy='45' r='1'/%3E%3Ccircle cx='58' cy='45' r='1'/%3E%3Cpath d='M150 150 Q160 120 175 150 Q190 120 195 150 Q195 180 175 190 Q155 180 150 150 Z'/%3E%3Cpath d='M120 50 C110 30 140 30 140 50 C140 70 120 85 120 85 C120 85 100 70 100 50 C100 30 130 30 120 50 Z'/%3E%3Ccircle cx='25' cy='160' r='8'/%3E%3Ccircle cx='15' cy='145' r='4'/%3E%3Ccircle cx='25' cy='135' r='4'/%3E%3Ccircle cx='35' cy='145' r='4'/%3E%3Cpath d='M80 120 L85 110 L90 120 L100 125 L90 130 L85 140 L80 130 L70 125 Z'/%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+
+        /* --- Header & Radio Box --- */
+        header {
+            text-align: center;
+            margin: 60px 0 40px 0;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .radio-case {
+            background: var(--white);
+            padding: 30px 50px;
+            border-radius: 65px;
+            border: 6px solid var(--peach);
+            box-shadow: 0 15px 0px var(--peach);
+            display: inline-block;
+            position: relative;
+        }
+
+        /* Cat Ears */
+        .radio-case::before, .radio-case::after {
+            content: '';
+            position: absolute;
+            top: -24px;
+            width: 0;
+            height: 0;
+            border-left: 18px solid transparent;
+            border-right: 18px solid transparent;
+            border-bottom: 28px solid var(--peach);
+            z-index: -1;
+        }
+        .radio-case::before { left: 55px; transform: rotate(-12deg); }
+        .radio-case::after { right: 55px; transform: rotate(12deg); }
+
+        .live-label {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--accent);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .blink-dot {
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0.3; } }
+
+        /* --- Schedule Container --- */
+        .schedule {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 45px;
+            border: 3px solid var(--peach);
+            box-shadow: 12px 12px 0px var(--peach);
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            backdrop-filter: blur(2px);
+        }
+
+        .card:hover { transform: translateY(-10px); }
+
+        .time-tag {
+            background: var(--peach);
+            color: white;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .card h3 { margin: 0 0 10px 0; font-size: 1.4rem; }
+        .card p { margin: 0; line-height: 1.5; opacity: 0.9; }
+
+        /* Card Doodles */
+        .card-doodle {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 2.5rem;
+            filter: grayscale(0.2);
+        }
+
+        /* --- Buttons --- */
+        .btn-row {
+            display: flex;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .cute-btn {
+            background: var(--white);
+            border: 4px solid var(--peach);
+            padding: 16px 32px;
+            border-radius: 35px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--text);
+            box-shadow: 0 8px 0 var(--peach);
+            transition: 0.1s;
+        }
+
+        .cute-btn:active { transform: translateY(4px); box-shadow: 0 3px 0 var(--peach); }
+
+        footer {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 40px;
+            text-align: center;
+            max-width: 420px;
+            border: 3px dashed var(--peach);
+            margin-bottom: 50px;
+            line-height: 1.6;
+        }
+
+        /* --- Heart Animation --- */
+        .heart-cursor {
+            position: fixed;
+            pointer-events: none;
+            color: var(--accent);
+            animation: rise 1s ease-out forwards;
+            z-index: 1000;
+        }
+
+        @keyframes rise { to { transform: translateY(-70px) rotate(15deg); opacity: 0; } }
+
+    </style>
+</head>
+<body onmousemove="spawnHeart(event)">
+
+    <header>
+        <div class="radio-case">
+            <div class="live-label">
+                <div class="blink-dot"></div> BROADCASTING LIVE
+            </div>
+            <h1 style="margin: 10px 0; font-size: 2rem;">Warm Hug 101.9 FM</h1>
+            <p style="margin: 0; font-weight: 500; opacity: 0.8;">"Broadcasting love to you, 24/7"</p>
+        </div>
+    </header>
+
+    <div class="schedule">
+        <div class="card">
+            <div class="card-doodle">🐱</div>
+            <div class="time-tag">08:00 AM</div>
+            <h3>Morning Glow Up</h3>
+            <p><b>Segment:</b> The "Wake Up, Sunshine" Alarm<br>A wave of forehead kisses for the girl who crinkles her eyes when she's sleepy.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-doodle">🐾</div>
+            <div class="time-tag">12:00 PM</div>
+            <h3>The Mid-Day Muse</h3>
+            <p><b>Segment:</b> The "Thinking of You" Interruption<br>A scheduled break just to remind you that you are doing amazing. No stress, only love.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-doodle">☁️</div>
+            <div class="time-tag">05:00 PM</div>
+            <h3>The Golden Hour</h3>
+            <p><b>Segment:</b> The "Home to You" Symphony<br>Soft lo-fi beats while I count down every single minute until I can hug you for real.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-doodle">🌙</div>
+            <div class="time-tag">10:00 PM</div>
+            <h3>Starlight Serenade</h3>
+            <p><b>Segment:</b> The Cozy Wrap-Up<br>Whispering "I love you" until you fall asleep. The love stays on loop in your dreams tonight.</p>
+        </div>
+    </div>
+
+    <div class="btn-row">
+        <button class="cute-btn" onclick="alert('Incoming Squeeze! 🧸💖')">🧸 Virtual Hug</button>
+        <button class="cute-btn" onclick="alert('MUAH! 💋✨')">☕ Morning Kiss</button>
+        <button class="cute-btn" onclick="alert('Note: In a world full of noise, you are my favorite melody. 📜')">📜 Love Note</button>
+    </div>
+
+    <footer>
+        <strong>About Our Station</strong><br><br>
+        At Warm Hug 101.9, we don't believe in static. We only believe in the warmth of your smile. Our mission is to make sure you wake up every day knowing you are the most cared-for person in the universe. 🐾💕
+    </footer>
+
+    <script>
+        function spawnHeart(e) {
+            if (Math.random() > 0.08) return;
+            const h = document.createElement('div');
+            h.innerHTML = '❤️';
+            h.className = 'heart-cursor';
+            h.style.left = e.clientX + 'px';
+            h.style.top = e.clientY + 'px';
+            h.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 1000);
+        }
+    </script>
+</body>
+</html>
